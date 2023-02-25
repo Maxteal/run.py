@@ -1,6 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
-
+ 
 # Create a request to get the HTML of the page with the ads
 url = "https://ay.link/dn9JMD"  # insert URL here 
 req = requests.get(url)  # make request to the URL and save HTML in `req` variable  
@@ -20,8 +20,11 @@ for link in skiplinks:    # iterate over each link found on the page
 
         skipreq = requests.get(actual_link)      # make new request for this link    
 
-        skiphtml=skipreq.text      # save response text to new variable      
+        skiphtml = skipreq.text      # save response text to new variable      
 
-        newsoup=BeautifulSoup(skiphtml,'html5lib')      
+        newsoup = BeautifulSoup(skiphtml, 'html5lib')      
 
-        skiparticle=newsoup.find('div', id='article-body')
+        skiparticle = newsoup.find('div', id='article-body')  
+        
+        if skiparticle:
+            print(skiparticle.text.strip())
