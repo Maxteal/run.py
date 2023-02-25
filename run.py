@@ -18,13 +18,17 @@ for link in skiplinks:    # iterate over each link found on the page
 
     if actual_link != "#":      # if it's not empty, then make a new request with this URL      
 
-        skipreq = requests.get(actual_link)      # make new request for this link    
-
-        skiphtml = skipreq.text      # save response text to new variable      
-
-        newsoup = BeautifulSoup(skiphtml, 'html5lib')      
-
-        skiparticle = newsoup.find('div', id='article-body')  
+        try:
+            skipreq = requests.get(actual_link)      # make new request for this link    
+            skipreq.raise_for_status()  # raise exception for 4xx and 5xx status codes
+            skiphtml = skipreq.text      # save response text to new variable      
+            newsoup = BeautifulSoup(skiphtml, 'html5lib')      
+            skiparticle = newsoup.find('div', id='article-body')  
         
-        if skiparticle:
-            print(skiparticle.text.strip())   # this line should be outside of the if statement and at the same indentation level as the for loo
+            if skiparticle:
+                print(skiparticle.text.strip())
+            else:
+                print(f"No article found on {actual_link}")
+        
+        except requests.exceptions.RequestException as e:
+            print(f"Error occurred on {actual_link}: {e}")
