@@ -27,4 +27,4 @@ for link in skiplinks:    # iterate over each link found on the page
         skiparticle = newsoup.find('div', id='article-body')  
         
         if skiparticle:
-            print(skiparticle.text.strip())
+            print(skiparticle.text.strip())   # this line should be outside of the if statement and at the same indentation level as the for loo
